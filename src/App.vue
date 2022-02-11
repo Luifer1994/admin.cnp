@@ -1,13 +1,33 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <Sidebar v-if="$route.name !== 'Login'"></Sidebar>
+  <div class="content" :class="{ open: open }">
+    <Navbar v-if="$route.name !== 'Login'"></Navbar>
+    <router-view />
   </div>
-  <router-view/>
 </template>
+<script>
+import Sidebar from "@/components/Sidebar";
+import Navbar from "@/components/Navbar";
+export default {
+  components: {
+    Sidebar,
+    Navbar,
+  },
+  data() {
+    return {
+      open: false,
+    };
+  },
+  mounted() {
+    this.emitter.on("togle", () => {
+      this.open = !this.open;
+    });
+  },
+};
+</script>
 
 <style>
-#app {
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,5 +46,5 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>
